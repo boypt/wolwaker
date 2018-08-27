@@ -1,3 +1,4 @@
+const debug = require('debug')('web:server:index.js');
 const _ = require('lodash');
 var express = require('express');
 var router = express.Router();
@@ -44,7 +45,7 @@ router.get('/regpull', function(req, res, next) {
   var regs = req.query.r;
   var _now = Date.now();
 
-  console.log(regs)
+  debug(regs)
   // 123456ABCDEF[NAME] ABCDEF567890[NAME]
   var pairs = regs.split('|').map((p) => {
     return p.split(',');
@@ -70,12 +71,12 @@ router.get('/regpull', function(req, res, next) {
 
   res.on('close', () =>{
     delete gOnlineDict[remoteid];
-    console.log(`conn closed: ${remoteid}`);
+    debug(`conn closed: ${remoteid}`);
   })
 
   res.on('finish', () =>{
     delete gOnlineDict[remoteid];
-    console.log(`conn finished: ${remoteid}`);
+    debug(`conn finished: ${remoteid}`);
   })
 
 });

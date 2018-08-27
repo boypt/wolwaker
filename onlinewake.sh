@@ -1,7 +1,7 @@
 #!/usr/bin/env sh
 set -o nounset
 
-readonly SERVER_URL=http://127.0.0.1:3000/regpull
+readonly SERVER_URL=http://127.0.0.1:3100/regpull
 readonly WGET=/usr/bin/wget
 readonly WOL=/usr/sbin/ether-wake
 readonly WOL_IF=br0

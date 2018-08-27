@@ -1,11 +1,11 @@
 #!/usr/bin/env sh
 set -o nounset
 
-SERVER_URL=http://127.0.0.1:3000/regpull
-WGET=/usr/bin/wget
-WOL=/usr/sbin/ether-wake
-WOL_IF=br0
-STATIC_IPS=/tmp/static_ip.inf
+readonly SERVER_URL=http://127.0.0.1:3100/regpull
+readonly WGET=/usr/bin/wget
+readonly WOL=/usr/sbin/ether-wake
+readonly WOL_IF=br0
+readonly STATIC_IPS=/tmp/static_ip.inf
 
 join_array()
 {
