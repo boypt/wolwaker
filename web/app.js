@@ -9,6 +9,7 @@ var debug = require('debug')('web:server:app.js');
 var indexRouter = require('./routes/index');
 
 var app = express();
+app.set('trust proxy', 'loopback, linklocal, uniquelocal') // specify multiple subnets as CSV
 
 // view engine setup
 app.set('views', path.join(__dirname, 'views'));

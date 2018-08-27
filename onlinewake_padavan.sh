@@ -24,7 +24,8 @@ wake_by_index()
   for ITM in $1; do
     if [ $IDX -eq $CNT ]; then
       local MAC=$(echo $ITM | cut -f 2 -d ',')
-      eval "$WOL -i $WOL_IF $MAC" || true
+      logger -s -t "WOLWaker" "Wake: $ITM"
+      eval "$WOL -b -i $WOL_IF $MAC" || true
       break
     fi
     CNT=$(($CNT+1))

@@ -52,7 +52,7 @@ router.get('/regpull', function(req, res, next) {
   });
 
   var md5 = crypto.createHash('md5');
-  var remoteid = md5.update(`${req.connection.remoteAddress}:${req.connection.remotePort}`)
+  var remoteid = md5.update(`${req.ips}:${req.connection.remotePort}:${_now}`)
     .digest('hex');
 
   var noevn = new notifyEvent();
@@ -64,7 +64,7 @@ router.get('/regpull', function(req, res, next) {
 
   gOnlineDict[remoteid] = {
     "time": _now,
-    "remote": [req.connection.remoteAddress, req.connection.remotePort],
+    "remote": [req.ips],
     "pairs": pairs,
     "emiter":noevn
   };
