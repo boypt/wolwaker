@@ -6,6 +6,15 @@ readonly WGET=/usr/bin/wget
 readonly WOL=/usr/sbin/ether-wake
 readonly WOL_IF=br0
 readonly STATIC_IPS=/tmp/static_ip.inf
+readonly PID=/var/run/wolwaker.pid
+
+if [ -f $PID ] && kill -0 $(cat $PID); then
+  logger -s -t "WOLWaker" "WOLWaker is already running."
+  exit 1
+fi
+echo $$ > "$PID"
+trap "rm -f -- '$PID'" EXIT
+# Ensure PID file is removed on program exit.
 
 join_array()
 {
