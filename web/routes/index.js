@@ -46,9 +46,8 @@ router.get('/regpull', function(req, res, next) {
 
   console.log(regs)
   // 123456ABCDEF[NAME] ABCDEF567890[NAME]
-  var pairs = regs.split(' ').map((p) => {
-    let grp = p.match(parser);
-    return [grp[1], grp[2]];
+  var pairs = regs.split('|').map((p) => {
+    return p.split(',');
   });
 
   var md5 = crypto.createHash('md5');

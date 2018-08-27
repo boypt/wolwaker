@@ -1,4 +1,4 @@
-#!/usr/bin/env bash
+#!/usr/bin/env sh
 set -o nounset
 
 SERVER_URL=http://127.0.0.1:3000/regpull
@@ -6,9 +6,10 @@ WGET=/usr/bin/wget
 WOL=/usr/sbin/ether-wake
 WOL_IF=br0
 
-MACS="9C:8E:99:E4:00:00[HTPC] 9C:8E:99:E4:00:01[NAS] 9C:8E:99:E4:00:02[DESKTOP]"
+MACS="192.168.123.145,9C:8E:99:E4:00:00,HTPC|,9C:8E:99:E4:00:01,NAS|,9C:8E:99:E4:00:02,DESKTOP"
 
-function wake_by_index() {
+wake_by_index()
+{
   local IDX=$1
   local CNT=0
   for ITM in $MACS; do

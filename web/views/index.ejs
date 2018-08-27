@@ -47,8 +47,9 @@
                   <% _.forEach(value.pairs, function(ps, idx) { %>
                   <div class="card" style="">
                     <div class="card-body">
-                      <h5 class="card-title"><%= ps[1] %></h5>
-                      <h6 class="card-subtitle mb-2 text-muted"><%= ps[0] %></h6>
+                      <h5 class="card-title"><%= ps[2] %></h5>
+                      <h6 class="card-subtitle mb-2"><%= ps[0] %></h6>
+                      <h6 class="card-subtitle mb-2 text-muted"><%= ps[1] %></h6>
                       <a class="btn btn-primary wakelink" href="/callwake?key=<%=gkey%>&index=<%=idx%>" >WAKE</a>
                     </div>
                   </div>
