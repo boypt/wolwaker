@@ -1,30 +1,30 @@
 #!/usr/bin/env bash
-# Bash3 Boilerplate. Copyright (c) 2014, kvz.io
-
-set -o errexit
-set -o pipefail
 set -o nounset
-# set -o xtrace
-
-# Set magic variables for current file & dir
-__dir="$(cd "$(dirname "${BASH_SOURCE[0]}")" && pwd)"
-__file="${__dir}/$(basename "${BASH_SOURCE[0]}")"
-__base="$(basename ${__file} .sh)"
-__root="$(cd "$(dirname "${__dir}")" && pwd)" # <-- change this as it depends on your app
-
-arg1="${1:-}"
-
-# allow command fail:
-# fail_command || true
 
 SERVER_URL=http://127.0.0.1:3000/regpull
 WGET=/usr/bin/wget
 WOL=/usr/sbin/ether-wake
 WOL_IF=br0
 
-MACS="9C:8E:99:E4:CD:8D[HTPC],9C:8E:99:E4:12:34[NAS]"
+MACS="9C:8E:99:E4:00:00[HTPC] 9C:8E:99:E4:00:01[NAS] 9C:8E:99:E4:00:02[DESKTOP]"
+
+function wake_by_index() {
+  local IDX=$1
+  local CNT=0
+  for ITM in $MACS; do
+    if [ $IDX -eq $CNT ]; then
+      local MAC=${ITM:0:17}
+      echo "$WOL -i $WOL_IF $MAC"
+      break
+    fi
+    let "CNT+=1"
+  done
+}
+
 while true; do 
-    ret=$($WGET -q -T 300 -O - "${SERVER_URL}?r=${MACS}")
-    echo "$WOL -i $WOL_IF $ret"
+    RET=$($WGET -q -T 300 -O - "${SERVER_URL}?r=${MACS}")
+    if echo $RET | grep -q '[0-9]\+'; then
+      wake_by_index $RET
+    fi
     sleep 1
 done
