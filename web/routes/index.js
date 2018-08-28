@@ -31,7 +31,7 @@ router.get('/callwake', function(req, res, next) {
     if (_.has(gOnlineDict, key)) {
       var waker = _.get(gOnlineDict, key);
       waker.emiter.emit('wake', index)
-      res.send(`Wake ${waker.pairs[index][0]}`)
+      res.send(`Wake ${waker.pairs[index][2] || waker.pairs[index][0] || waker.pairs[index][1] }`)
     } else {
       res.send("Invalid key")
     }
