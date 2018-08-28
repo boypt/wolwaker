@@ -8,18 +8,17 @@ class notifyEvent extends EventEmitter {}
 
 const gOnlineDict = {}
 
-/*
 // ui stub data
 gOnlineDict["12345678901234"] = { 
-  remote:['127.0.0.1',4444], 
+  hostname: 'stub-TESTDATA',
+  remote:'127.0.0.1', 
   pairs:[['9C:8E:99:E4:00:00','STUB_PCName'], ['9C:8E:99:E4:00:00','STUB_NasName']], 
   emiter: new EventEmitter()
 };
-*/
 
 /* GET home page. */
 router.get('/', function(req, res, next) {
-  res.render('index', { _:_, gOnlineDict: gOnlineDict,  title: 'Express' });
+  res.render('index', { _:_, gOnlineDict: gOnlineDict });
 });
 
 router.get('/callwake', function(req, res, next) {
@@ -43,16 +42,16 @@ router.get('/regpull', function(req, res, next) {
 
   var parser = /([0-9a-f:]{17})\[([0-9a-z-_]+)\]/i
   var regs = req.query.r;
+  var hostname = req.query.hostname;
   var _now = Date.now();
 
-  debug(regs)
   // 123456ABCDEF[NAME] ABCDEF567890[NAME]
   var pairs = regs.split('|').map((p) => {
     return p.split(',');
   });
 
   var md5 = crypto.createHash('md5');
-  var remoteid = md5.update(`${req.ips}:${req.connection.remotePort}:${_now}`)
+  var remoteid = md5.update(`${req.ip}:${hostname}:${req.connection.remotePort}:${_now}`)
     .digest('hex');
 
   var noevn = new notifyEvent();
@@ -64,7 +63,8 @@ router.get('/regpull', function(req, res, next) {
 
   gOnlineDict[remoteid] = {
     "time": _now,
-    "remote": [req.ips],
+    "remote": req.ip,
+    "hostname": hostname,
     "pairs": pairs,
     "emiter":noevn
   };
