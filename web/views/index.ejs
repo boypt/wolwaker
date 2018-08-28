@@ -7,13 +7,6 @@
     <link rel='stylesheet' href='stylesheets/bootstrap.min.css' />
 
     <style type="text/css">
-      .waker-node {
-        margin: 1rem -15px;
-        background-color:#eee;
-      }
-      .waker-node .card {
-        margin: 0.5rem;
-      }
     </style>
 
     <script src="javascripts/zepto.min.js"></script>
@@ -29,32 +22,31 @@
         });
       });
     </script>
-
   </head>
   <body>
     <div class="container">
 
-        <div class="row d-flex justify-content-between">
-          <h1 class="display-3">WOL Waker</h1>
-          <h3 class="lead">Online Nodes: <span class="badge badge-primary"><%= _.size(gOnlineDict) %></span></h3>
-        </div>
+        <h1 class="">WOL Waker</h1>
+        <h4 class="d-flex align-items-center">
+          Online Nodes: <span class="badge badge-primary"><%= _.size(gOnlineDict) %></span>
+        </h4>
 
         <% _.forIn(gOnlineDict, function(value, gkey){ %>
-        <div class="waker-node">
-            <h4 class="lead"><%= value.remote[0] %></h4>
-            <div class="row d-flex justify-content-around">
-                  <% _.forEach(value.pairs, function(ps, idx) { %>
-                  <div class="card" style="">
-                    <div class="card-body">
-                      <h5 class="card-title"><%= ps[2] %></h5>
-                      <h6 class="card-subtitle mb-2"><%= ps[0] %></h6>
-                      <h6 class="card-subtitle mb-2 text-muted"><%= ps[1] %></h6>
+            <h4 class="mt-4"><%= value.remote[0] %></h4>
+            <ul class="list-group">
+                <% _.forEach(value.pairs, function(ps, idx) { %>
+                  <li class="list-group-item d-flex justify-content-between">
+                    <div>
+                      <h5 class=""><%= ps[2] %></h5>
+                      <h6 class="mb-2"><%= ps[0] %></h6>
+                      <h6 class="mb-2 text-muted"><%= ps[1] %></h6>
+                    </div>
+                    <div class="d-flex align-items-center">
                       <a class="btn btn-primary wakelink" href="callwake?key=<%=gkey%>&index=<%=idx%>" >WAKE</a>
                     </div>
-                  </div>
-                  <% }) %>
-            </div>
-        </div>
+                  </li>
+                <% }) %>
+            </ul>
         <% }) %>
     </div>  
   </body>

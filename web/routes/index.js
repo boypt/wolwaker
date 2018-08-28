@@ -9,7 +9,7 @@ class notifyEvent extends EventEmitter {}
 const gOnlineDict = {}
 
 /*
-//test data
+// ui stub data
 gOnlineDict["12345678901234"] = { 
   remote:['127.0.0.1',4444], 
   pairs:[['9C:8E:99:E4:00:00','STUB_PCName'], ['9C:8E:99:E4:00:00','STUB_NasName']], 
@@ -30,7 +30,7 @@ router.get('/callwake', function(req, res, next) {
     if (_.has(gOnlineDict, key)) {
       var waker = _.get(gOnlineDict, key);
       waker.emiter.emit('wake', index)
-      res.send(`Wake ${waker.pairs[index]}`)
+      res.send(`Wake ${waker.pairs[index][0]}`)
     } else {
       res.send("Invalid key")
     }
