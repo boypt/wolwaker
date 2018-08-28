@@ -14,16 +14,15 @@ main()
 {
     local HOSTNAME=$(hostname)
     while true; do
-        local STAS="$(echo $CLIENTS | tr ' ' '|')"
+        local STAS="$(echo "$CLIENTS" | tr '\n' '|')"
         local RET=$($WGET -q -T 300 -O - "${SERVER_URL}?hostname=${HOSTNAME}&r=${STAS}")
-        if echo $RET | grep -q '[0-9]\+'; then
-            local MAC=$(echo $CLIENTS | sed -n ${RET}p | cut -f 2 -d ',')
-            if [ -n $MAC ]; then
+        if echo "$RET" | grep -q '^[0-9]\+$'; then
+            local MAC=$(echo "$CLIENTS" | sed -n "$(($RET+1))"p | cut -f 2 -d ',')
+            if [ ! -z $MAC ]; then
                 logger -s -t "WOLWaker" "Wake: $MAC"
                 eval "$WOL -b -i $WOL_IF $MAC &"
             fi
         fi
-        sleep 1
     done
 }
 
