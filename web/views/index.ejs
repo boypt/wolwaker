@@ -30,7 +30,7 @@
 
         <% _.forIn(gOnlineDict, function(value, gkey){ %>
             <h4 class="mt-4"><%= value.hostname %> - <%= value.remote %></h4>
-            <ul class="list-group">
+            <ul class="list-group mb-4">
                 <% _.forEach(value.pairs, function(ps, idx) { %>
                   <li class="list-group-item d-flex justify-content-between">
                     <div>

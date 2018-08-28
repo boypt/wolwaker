@@ -46,6 +46,10 @@ router.get('/regpull', function(req, res, next) {
   var hostname = req.query.hostname.match(/[a-z0-9-_]+/i)[0];
   var _now = Date.now();
 
+  if(regs.slice(-1) == '|') {
+    regs = regs.slice(0, -1);
+  }
+
   // 123456ABCDEF[NAME] ABCDEF567890[NAME]
   var pairs = regs.split('|').map(p => p.split(','));
 
