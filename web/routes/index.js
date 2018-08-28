@@ -42,15 +42,12 @@ router.get('/callwake', function(req, res, next) {
 
 router.get('/regpull', function(req, res, next) {
 
-  var parser = /([0-9a-f:]{17})\[([0-9a-z-_]+)\]/i
   var regs = req.query.r;
-  var hostname = req.query.hostname;
+  var hostname = req.query.hostname.match(/[a-z0-9-_]+/i)[0];
   var _now = Date.now();
 
   // 123456ABCDEF[NAME] ABCDEF567890[NAME]
-  var pairs = regs.split('|').map((p) => {
-    return p.split(',');
-  });
+  var pairs = regs.split('|').map(p => p.split(','));
 
   var md5 = crypto.createHash('md5');
   var remoteid = md5.update(`${req.ip}:${hostname}:${req.connection.remotePort}:${_now}`)
@@ -73,12 +70,12 @@ router.get('/regpull', function(req, res, next) {
 
   res.on('close', () =>{
     delete gOnlineDict[remoteid];
-    debug(`conn closed: ${remoteid}`);
+    debug(`conn closed: ${req.ip}`);
   })
 
   res.on('finish', () =>{
     delete gOnlineDict[remoteid];
-    debug(`conn finished: ${remoteid}`);
+    debug(`conn finished: ${req.ip}`);
   })
 
 });

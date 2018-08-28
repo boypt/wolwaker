@@ -29,3 +29,7 @@ DEBUG=web:* npm start
 
 通过手机等设备访问服务端，点对应设备的WAKE按钮，WOL开机指令会实时发送。
 
+
+## 安全建议
+
+部署服务端请务至少必配置HTTPS+Basic Auth （比如通过nginx代理实现），避免信息泄露。 
