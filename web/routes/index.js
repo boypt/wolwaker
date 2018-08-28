@@ -9,12 +9,14 @@ class notifyEvent extends EventEmitter {}
 const gOnlineDict = {}
 
 // ui stub data
+/*
 gOnlineDict["12345678901234"] = { 
   hostname: 'stub-TESTDATA',
   remote:'127.0.0.1', 
   pairs:[['9C:8E:99:E4:00:00','STUB_PCName'], ['9C:8E:99:E4:00:00','STUB_NasName']], 
   emiter: new EventEmitter()
 };
+*/
 
 /* GET home page. */
 router.get('/', function(req, res, next) {
