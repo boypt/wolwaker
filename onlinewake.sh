@@ -33,6 +33,7 @@ main()
                 eval "$WOL -b -i $WOL_IF $MAC &"
             fi
         fi
+        sleep 1
     done
 }
 

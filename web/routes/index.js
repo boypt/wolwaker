@@ -45,13 +45,36 @@ router.get('/regpull', function(req, res, next) {
   var regs = req.query.r;
   var hostname = req.query.hostname.match(/[a-z0-9-_]+/i)[0];
   var _now = Date.now();
+  var _reg_mac = /^[0-9a-f]{1,2}([\.:-])(?:[0-9a-f]{1,2}\1){4}[0-9a-f]{1,2}$/i;
 
   if(regs.slice(-1) == '|') {
     regs = regs.slice(0, -1);
   }
 
-  // 123456ABCDEF[NAME] ABCDEF567890[NAME]
+  // Sample:
+  // 192.168.1.123,AB:CD:EF:12:34:56,MOCK-NAME,192.168.1.123,AB:CD:EF:12:34:56,MOCK-NAME
   var pairs = regs.split('|').map(p => p.split(','));
+
+  // Data Check
+  if (!_.isArray(pairs[0]) || _.size(pairs[0]) <= 1) {
+    res.status(400).send("Invalid register string.")
+    return;
+  }
+
+  var f_mal = false;
+  pairs.some(v => {
+    if( _.size(v) != 3 || !v[1].match(_reg_mac) ) {
+      f_mal = true;
+      return true;
+    }
+  });
+
+  if(f_mal) {
+    res.status(400).send("Invalid register MAC Pairs.")
+    return;
+  }
+
+  // Data Check Done.
 
   var md5 = crypto.createHash('md5');
   var remoteid = md5.update(`${req.ip}:${hostname}:${req.connection.remotePort}:${_now}`)
@@ -61,7 +84,7 @@ router.get('/regpull', function(req, res, next) {
 
   // one time event
   noevn.once('wake', (index) => {
-    res.send(index.toString());
+    res.send(index.toString()).end();
   });
 
   gOnlineDict[remoteid] = {
@@ -82,6 +105,7 @@ router.get('/regpull', function(req, res, next) {
     debug(`conn finished: ${req.ip}`);
   })
 
+  res.writeContinue();
 });
 
 module.exports = router;
