@@ -8,7 +8,7 @@ readonly WOL_IF=br0
 readonly STATIC_IPS=/tmp/static_ip.inf
 readonly PID=/var/run/wolwaker.pid
 
-if [ -f $PID ] && kill -0 $(cat $PID); then
+if [ -f $PID ] && kill -0 $(cat $PID) >/dev/null 2>&1; then
   logger -s -t "WOLWaker" "WOLWaker is already running."
   exit 1
 fi
