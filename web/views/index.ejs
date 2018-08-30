@@ -3,7 +3,7 @@
   <head>
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
-    <title>WOL WEB Waker</title>
+    <title>WOL WEB Wake</title>
     <link rel='stylesheet' href='stylesheets/bootstrap.min.css' />
 
     <script src="javascripts/zepto.min.js"></script>
@@ -23,13 +23,16 @@
   <body>
     <div class="container">
 
-        <h1 class="mt-3">WOL WEB Waker</h1>
+        <h1 class="mt-3">WOL WEB Wake</h1>
         <div class="alert alert-primary mb-5 d-flex justify-content-between align-items-center">
           Online Nodes<span class="badge badge-primary badge-pill"><%= _.size(gOnlineDict) %></span>
         </div>
 
         <% _.forIn(gOnlineDict, function(value, gkey){ %>
-            <h4 class="mt-4"><%= value.hostname %> - <%= value.remote %></h4>
+            <h4 class="d-flex justify-content-between mt-4">
+              <span class="badge badge-info"><%= value.hostname %> - <%= value.remote %></span>
+              <span class="badge badge-secondary font-weight-light"><%= moment(value.time).fromNow() %></span>
+            </h4>
             <ul class="list-group mb-4">
                 <% _.forEach(value.pairs, function(ps, idx) { %>
                   <li class="list-group-item d-flex justify-content-between">

@@ -1,5 +1,6 @@
 const debug = require('debug')('web:server:index.js');
 const _ = require('lodash');
+const moment = require('moment');
 var express = require('express');
 var router = express.Router();
 var crypto = require('crypto');
@@ -20,7 +21,7 @@ gOnlineDict["12345678901234"] = {
 
 /* GET home page. */
 router.get('/', function(req, res, next) {
-  res.render('index', { _:_, gOnlineDict: gOnlineDict });
+  res.render('index', { _:_, moment:moment, gOnlineDict: gOnlineDict });
 });
 
 router.get('/callwake', function(req, res, next) {
@@ -44,8 +45,10 @@ router.get('/regpull', function(req, res, next) {
 
   var regs = req.query.r;
   var hostname = req.query.hostname.match(/[a-z0-9-_]+/i)[0];
-  var _now = Date.now();
+  var _now = _.now();
   var _reg_mac = /^[0-9a-f]{1,2}([\.:-])(?:[0-9a-f]{1,2}\1){4}[0-9a-f]{1,2}$/i;
+
+  debug(typeof _now)
 
   if(regs.slice(-1) == '|') {
     regs = regs.slice(0, -1);
@@ -105,7 +108,7 @@ router.get('/regpull', function(req, res, next) {
     debug(`conn finished: ${req.ip}`);
   })
 
-  res.writeContinue();
+  res.writeProcessing();
 });
 
 module.exports = router;
