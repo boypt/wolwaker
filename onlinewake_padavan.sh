@@ -16,13 +16,23 @@ echo $$ > "$PID"
 trap "rm -f -- '$PID'" EXIT
 # Ensure PID file is removed on program exit.
 
+reqgen()
+{
+    local DATASTR="hostname=${1}&r=${2}"
+    if type curl >/dev/null 2>&1; then
+        echo curl -s --max-time 300 "${SERVER_URL}?${DATASTR}"
+    elif type wget >/dev/null 2>&1; then
+        echo wget -q -T 300 -O - "${SERVER_URL}?${DATASTR}"
+    fi
+}
+
 main()
 {
     local HOSTNAME=$(hostname)
     while true; do
         local CLIENTS="$(cat $STATIC_IPS | cut -f 1,2,3 -d ',')"
         local STAS="$(echo "$CLIENTS" | tr '\n' '|')"
-        local RET=$($WGET -q -T 300 -O - "${SERVER_URL}?hostname=${HOSTNAME}&r=${STAS}")
+        local RET=$($(reqgen "${HOSTNAME}" "${STAS}"))
         if echo "$RET" | grep -q '^[0-9]\+$'; then
             local MAC=$(echo "$CLIENTS" | sed -n "$(($RET+1))"p | cut -f 2 -d ',')
             if [ ! -z $MAC ]; then
