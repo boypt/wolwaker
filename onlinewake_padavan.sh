@@ -20,7 +20,7 @@ reqgen()
 {
     local DATASTR="hostname=${1}&r=${2}"
     if type curl >/dev/null 2>&1; then
-        echo curl -s --max-time 300 "${SERVER_URL}?${DATASTR}"
+        echo curl -k -s --max-time 300 "${SERVER_URL}?${DATASTR}"
     elif type wget >/dev/null 2>&1; then
         echo wget -q -T 300 -O - "${SERVER_URL}?${DATASTR}"
     fi
