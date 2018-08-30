@@ -106,7 +106,7 @@ router.get('/regpull', function(req, res, next) {
     debug(`conn finished: ${req.ip}`);
   })
 
-  res.writeProcessing();
+  res.writeContinue();
 });
 
 module.exports = router;
