@@ -48,8 +48,6 @@ router.get('/regpull', function(req, res, next) {
   var _now = _.now();
   var _reg_mac = /^[0-9a-f]{1,2}([\.:-])(?:[0-9a-f]{1,2}\1){4}[0-9a-f]{1,2}$/i;
 
-  debug(typeof _now)
-
   if(regs.slice(-1) == '|') {
     regs = regs.slice(0, -1);
   }
