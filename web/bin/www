@@ -23,6 +23,9 @@ var host = process.env.ADDRESS || 'localhost'
 
 var server = http.createServer(app);
 
+// set timeout for 10mins
+server.setTimeout(600000);
+
 /**
  * Listen on provided port, on all network interfaces.
  */
