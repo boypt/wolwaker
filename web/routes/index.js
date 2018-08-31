@@ -1,6 +1,7 @@
 const debug = require('debug')('web:server:index.js');
 const _ = require('lodash');
 const moment = require('moment');
+moment.locale('zh-cn')
 var express = require('express');
 var router = express.Router();
 var crypto = require('crypto');
