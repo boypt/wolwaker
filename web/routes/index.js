@@ -25,6 +25,11 @@ router.get('/', function(req, res, next) {
   res.render('index', { _:_, moment:moment, gOnlineDict: gOnlineDict });
 });
 
+router.get('/robots.txt', function(req, res, next) {
+  res.type('txt');
+  res.send("User-agent: *\r\nDisallow: /\r\n");
+});
+
 router.get('/callwake', function(req, res, next) {
   if(_.size(gOnlineDict) > 0) {
 
