@@ -6,13 +6,13 @@
     "start": "node ./bin/www"
   },
   "dependencies": {
-    "cookie-parser": "~1.4.3",
+    "cookie-parser": "^1.4.4",
     "debug": "~4.1.1",
-    "ejs": "~2.6.1",
-    "express": "~4.16.0",
-    "http-errors": "~1.7.1",
-    "lodash": "^4.17.10",
-    "moment": "^2.22.2",
+    "ejs": "^2.6.2",
+    "express": "^4.16.4",
+    "http-errors": "^1.7.3",
+    "lodash": "^4.17.14",
+    "moment": "^2.24.0",
     "morgan": "^1.9.1"
   }
 }
